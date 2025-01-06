@@ -54,11 +54,10 @@ body {
     flex-grow: 1;
     padding: 20px;
 }
-header{
+.content header{
     background: #000;
     border: solid 0px;
     border-radius: 350px;
 }
-header h1{
-    color: #ddd;
-}
+.content header h1{color: #ddd;}
+
