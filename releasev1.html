@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinanceFlow</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="logo.jpeg">
+</head>
+<body>
+    <div class="sidebar">
+        <h2>Menu</h2>
+        <ul>
+            <li><a href="#dashboard">Tableau de bord</a></li>
+            <li><a href="#income">Revenus</a></li>
+            <li><a href="#expenses">Dépenses</a></li>
+            <li><a href="#reports">Rapports</a></li>
+            <li><a href="#settings">Paramètres</a></li>
+        </ul>
+    </div>
+    <div class="content">
+        <header>
+            <h1>FinanceFlow</h1>
+        </header>
+        <br><br><br>
+
+        <h2>Tableau de bord</h2>
+        <div class="dashboard">
+            <div class="card">
+                <h3>Revenus totaux</h3>
+                <p id="total-income">0 €</p>
+            </div>
+            <div class="card">
+                <h3>Dépenses totales</h3>
+                <p id="total-expenses">0 €</p>
+            </div>
+            <div class="card">
+                <h3>Solde</h3>
+                <p id="balance">0 €</p>
+            </div>
+        </div>
+
+        <h2>Données financières</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Type</th>
+                    <th>Montant (€)</th>
+                </tr>
+            </thead>
+            <tbody id="data-table">
+                <!-- Les données seront ajoutées dynamiquement ici -->
+            </tbody>
+        </table>
+
+        <form id="data-form">
+            <h3>Ajouter une transaction</h3>
+            <label for="category">Catégorie :</label>
+            <input type="text" id="category" required>
+            <label for="type">Type :</label>
+            <select id="type">
+                <option value="income">Revenu</option>
+                <option value="expense">Dépense</option>
+            </select>
+            <label for="amount">Montant (€) :</label>
+            <input type="number" id="amount" required>
+            <br><br>
+            <button type="submit">Ajouter</button>
+        </form>
+    </div>
+    <script>
+        let transactions = [];
+
+function updateDashboard() {
+    const totalIncome = transactions
+        .filter(t => t.type === "income")
+        .reduce((sum, t) => sum + t.amount, 0);
+    const totalExpenses = transactions
+        .filter(t => t.type === "expense")
+        .reduce((sum, t) => sum + t.amount, 0);
+    const balance = totalIncome - totalExpenses;
+
+    document.getElementById("total-income").textContent = `${totalIncome} €`;
+    document.getElementById("total-expenses").textContent = `${totalExpenses} €`;
+    document.getElementById("balance").textContent = `${balance} €`;
+}
+
+function updateTable() {
+    const tableBody = document.getElementById("data-table");
+    tableBody.innerHTML = transactions
+        .map(
+            t => `
+        <tr>
+            <td>${t.category}</td>
+            <td>${t.type === "income" ? "Revenu" : "Dépense"}</td>
+            <td>${t.amount} €</td>
+        </tr>
+    `
+        )
+        .join("");
+}
+
+document.getElementById("data-form").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const category = document.getElementById("category").value;
+    const type = document.getElementById("type").value;
+    const amount = parseFloat(document.getElementById("amount").value);
+
+    transactions.push({ category, type, amount });
+
+    updateDashboard();
+    updateTable();
+
+    e.target.reset();
+});
+
+    </script>
+</body>
+</html>
