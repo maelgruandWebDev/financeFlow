@@ -2,6 +2,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 body {
@@ -52,4 +53,12 @@ body {
 .content {
     flex-grow: 1;
     padding: 20px;
+}
+header{
+    background: #000;
+    border: solid 0px;
+    border-radius: 350px;
+}
+header h1{
+    color: #ddd;
 }
