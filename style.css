@@ -58,6 +58,8 @@ body {
     background: #000;
     border: solid 0px;
     border-radius: 350px;
+    padding: 20px;
 }
-.content header h1{color: #ddd; text-align: center;}
+.content header h1{color: #ddd; text-align: center; }
+ 
 
