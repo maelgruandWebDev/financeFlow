@@ -53,6 +53,7 @@ body {
 .content {
     flex-grow: 1;
     padding: 20px;
+    background: linear-gradient( to bottom, yellow 45%, black 5%, grey, 25%);
 }
 .content header{
     background: #000;
