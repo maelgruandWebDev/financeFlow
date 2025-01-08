@@ -50,6 +50,12 @@
                 </tr>
             </thead>
             <tbody id="data-table">
+                <tbody id="data-table">
+                    <tr>
+                        <td colspan="5" style="text-align: center;">Aucune transaction enregistrée</td>
+                    </tr>
+                
+                
                 <!-- Les données seront ajoutées dynamiquement ici -->
             </tbody>
         </table>
@@ -58,7 +64,16 @@
             <form id="data-form">
                 <h3>Ajouter une transaction</h3>
                 <label for="category">Catégorie :</label>
-                <input type="text" id="category" required>
+                <label for="category">Catégorie :</label>
+                <select id="category" required>
+                    <option value="salaire">Salaire</option>
+                    <option value="loyer">Loyer</option>
+                    <option value="alimentation">Alimentation</option>
+                    <option value="transport">Transport</option>
+                    <option value="loisirs">Loisirs</option>
+                    <option value="autres">Autres</option>
+                </select>
+
                 <label for="type">Type :</label>
                 <select id="type">
                     <option value="income">Revenu</option>

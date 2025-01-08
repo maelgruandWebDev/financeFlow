@@ -1,45 +1,42 @@
-let transactions = [];
+const transactions = [];
 
-function updateDashboard() {
-    const totalIncome = transactions
-        .filter(t => t.type === "income")
-        .reduce((sum, t) => sum + t.amount, 0);
-    const totalExpenses = transactions
-        .filter(t => t.type === "expense")
-        .reduce((sum, t) => sum + t.amount, 0);
-    const balance = totalIncome - totalExpenses;
-
-    document.getElementById("total-income").textContent = `${totalIncome} €`;
-    document.getElementById("total-expenses").textContent = `${totalExpenses} €`;
-    document.getElementById("balance").textContent = `${balance} €`;
-}
-
-function updateTable() {
-    const tableBody = document.getElementById("data-table");
-    tableBody.innerHTML = transactions
-        .map(
-            t => `
-        <tr>
-            <td>${t.category}</td>
-            <td>${t.type === "income" ? "Revenu" : "Dépense"}</td>
-            <td>${t.amount} €</td>
-        </tr>
-    `
-        )
-        .join("");
-}
-
-document.getElementById("data-form").addEventListener("submit", e => {
+document.getElementById("data-form").addEventListener("submit", (e) => {
     e.preventDefault();
 
     const category = document.getElementById("category").value;
     const type = document.getElementById("type").value;
     const amount = parseFloat(document.getElementById("amount").value);
 
-    transactions.push({ category, type, amount });
+    if (!category || isNaN(amount) || amount <= 0) {
+        alert("Veuillez remplir tous les champs avec des valeurs valides !");
+        return;
+    }
 
-    updateDashboard();
+    const transaction = { category, type, amount, date: new Date().toLocaleDateString() };
+    transactions.push(transaction);
+
     updateTable();
-
     e.target.reset();
 });
+
+function updateTable() {
+    const tableBody = document.getElementById("data-table");
+    tableBody.innerHTML = ""; // Réinitialise le tableau
+
+    transactions.forEach((t, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td>${t.category}</td>
+            <td>${t.type === "income" ? "Revenu" : "Dépense"}</td>
+            <td>${t.amount.toFixed(2)} €</td>
+            <td>${t.date}</td>
+            <td><button onclick="deleteTransaction(${index})">Supprimer</button></td>
+        `;
+        tableBody.appendChild(row);
+    });
+}
+
+function deleteTransaction(index) {
+    transactions.splice(index, 1);
+    updateTable();
+}
