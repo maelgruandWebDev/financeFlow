@@ -12,6 +12,12 @@ function updateDashboard() {
     document.getElementById("total-income").textContent = `${totalIncome} €`;
     document.getElementById("total-expenses").textContent = `${totalExpenses} €`;
     document.getElementById("balance").textContent = `${balance} €`;
+
+    // Vérification du solde si type = dépense
+    if (balance <= 0 && transactions.some(t => t.type === "expense")) {
+        alert("Impossible d'ajouter cette dépense : votre solde est à 0€ ou négatif !");
+        return;
+    }
 }
 
 function updateTable() {
