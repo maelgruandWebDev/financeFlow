@@ -98,6 +98,7 @@ form input, form select, form button {
 }
 div.forms{
     width: 100px;
+    background-color: #ccc;
     border: 0px solid;
 }
 .forms form, form input, form select, form button{
