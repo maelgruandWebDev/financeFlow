@@ -5,35 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rapport de Dépenses</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <style>
-        body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-    padding: 0;
-}
-
-.report-container {
-    max-width: 800px;
-    margin: 50px auto;
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    text-align: center;
-}
-
-canvas {
-    margin-top: 20px;
-}
-
-#total-expenses-summary {
-    margin-top: 20px;
-    font-size: 18px;
-    font-weight: bold;
-}
-
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="report-container">
@@ -42,55 +14,30 @@ canvas {
         <div id="total-expenses-summary">
             <p>Total des Dépenses : <span id="total-expenses">0 €</span></p>
         </div>
+        <form id="data-form">
+            <input type="text" id="category" placeholder="Catégorie" required>
+            <select id="type" required>
+                <option value="income">Revenu</option>
+                <option value="expense">Dépense</option>
+            </select>
+            <input type="number" id="amount" placeholder="Montant" required>
+            <button type="submit">Ajouter</button>
+        </form>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Type</th>
+                    <th>Montant</th>
+                </tr>
+            </thead>
+            <tbody id="data-table">
+                <!-- Les lignes de transaction seront ajoutées ici -->
+            </tbody>
+        </table>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>let transactions = [
-        { category: "Alimentation", type: "expense", amount: 50 },
-        { category: "Transport", type: "expense", amount: 30 },
-        { category: "Loisirs", type: "expense", amount: 20 },
-        { category: "Alimentation", type: "expense", amount: 40 },
-        { category: "Transport", type: "expense", amount: 10 }
-    ];
-    
-    function generateReport() {
-        const expenses = transactions.filter(t => t.type === "expense");
-    
-        // Calculer le total des dépenses
-        const totalExpenses = expenses.reduce((sum, t) => sum + t.amount, 0);
-        document.getElementById("total-expenses").textContent = `${totalExpenses} €`;
-    
-        // Regrouper les dépenses par catégorie
-        const categories = [...new Set(expenses.map(t => t.category))];
-        const amounts = categories.map(category => 
-            expenses.filter(t => t.category === category).reduce((sum, t) => sum + t.amount, 0)
-        );
-    
-        // Créer le graphique
-        const ctx = document.getElementById('expenseChart').getContext('2d');
-        const expenseChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: categories,  // Catégories des dépenses
-                datasets: [{
-                    label: 'Dépenses par catégorie',
-                    data: amounts,  // Montants des dépenses
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
-    }
-    
-    generateReport();
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
