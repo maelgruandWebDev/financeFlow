@@ -13,9 +13,8 @@
         <h2>Menu</h2>
         <ul>
             <li><a href="#dashboard">Tableau de bord</a></li>
-            <li><a href="#income">Revenus</a></li>
-            <li><a href="#expenses">Dépenses</a></li>
-            <li><a href="report.html">Rapports</a></li>
+            <li><a href="#datosFinance">Données financières</a></li>
+            <li><a href="#report">Graphique de dépenses</a></li>
             <li><a href="#settings">Paramètres</a></li>
         </ul>
     </div>
@@ -46,21 +45,23 @@
             <button id="view-category">Vue par Catégorie</button>
             <button id="view-type">Vue par Type</button>
         </div>
-
-        <h2>Données financières</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Catégorie</th>
-                    <th>Type</th>
-                    <th>Montant (€)</th>
-                </tr>
-            </thead>
-            <tbody id="data-table">
-                <!-- Les données seront ajoutées dynamiquement ici -->
-            </tbody>
-        </table>
+        <section id="datosFinance">
+            <h2>Données financières</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Catégorie</th>
+                        <th>Type</th>
+                        <th>Montant (€)</th>
+                    </tr>
+                </thead>
+                <tbody id="data-table">
+                    <!-- Les données seront ajoutées dynamiquement ici -->
+                </tbody>
+            </table>
+        </section>
         <br><br><br><br>
+        
         <div class="forms">
             <form id="data-form">
                 <h3>Ajouter une transaction</h3>
@@ -86,8 +87,11 @@
             </form>
         </div>
         <br><br><br><br><br><br>
-        <!-- Canvas pour le graphique -->
-        <canvas id="expenseChart" width="400" height="200"></canvas>
+        <section id="report">
+            <!-- Canvas pour le graphique -->
+            <canvas id="expenseChart" width="400" height="200"></canvas>
+        </section>
+        
     </div>
 
     <script src="script.js"></script>
