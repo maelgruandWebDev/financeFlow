@@ -8,8 +8,8 @@ let expenseChart = new Chart(ctx, {
         datasets: [{
             label: 'Dépenses',
             data: [],  // Les montants des dépenses seront mises à jour ici
-            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-            borderColor: 'rgba(255, 99, 132, 1)',
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Couleur de fond des barres
+            borderColor: 'rgba(75, 192, 192, 1)',        // Couleur des bordures des barres
             borderWidth: 1
         }]
     },
@@ -21,6 +21,7 @@ let expenseChart = new Chart(ctx, {
         }
     }
 });
+
 
 // Fonction pour mettre à jour le tableau avec les transactions
 function updateTable() {
