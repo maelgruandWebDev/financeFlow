@@ -79,11 +79,24 @@ table {
     margin-top: 20px;
 }
 
-table th, table td {
+th, td {
+    border: 2px solid black; /* Bords visibles */
     padding: 10px;
-    text-align: left;
-    border: 10px solid #000;
+    text-align: center; /* Centrer le texte */
+    background-color: #ffc107; /* Couleur jaune */
 }
+
+th {
+    background-color: #ff9800; /* Couleur d'en-tête */
+    font-weight: bold;
+}
+
+tbody tr:last-child td {
+    text-align: center;
+    font-style: italic;
+    color: #555; /* Texte grisé pour la ligne par défaut */
+}
+
 
 form {
     margin: 20px auto; /* Centrer le formulaire horizontalement */
