@@ -40,6 +40,12 @@
             </div>
         </div>
 
+        <!-- Sélecteur de vue -->
+        <div id="view-selector">
+            <button id="view-category">Vue par Catégorie</button>
+            <button id="view-type">Vue par Type</button>
+        </div>
+
         <h2>Données financières</h2>
         <table>
             <thead>
@@ -50,9 +56,6 @@
                 </tr>
             </thead>
             <tbody id="data-table">
-                
-                
-                
                 <!-- Les données seront ajoutées dynamiquement ici -->
             </tbody>
         </table>
@@ -82,8 +85,10 @@
             </form>
         </div>
 
-        
+        <!-- Canvas pour le graphique -->
+        <canvas id="expenseChart" width="400" height="200"></canvas>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
