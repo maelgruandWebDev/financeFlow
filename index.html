@@ -53,21 +53,24 @@
                 <!-- Les données seront ajoutées dynamiquement ici -->
             </tbody>
         </table>
+        <div class="forms">
+            <form id="data-form">
+                <h3>Ajouter une transaction</h3>
+                <label for="category">Catégorie :</label>
+                <input type="text" id="category" required>
+                <label for="type">Type :</label>
+                <select id="type">
+                    <option value="income">Revenu</option>
+                    <option value="expense">Dépense</option>
+                </select>
+                <label for="amount">Montant (€) :</label>
+                <input type="number" id="amount" required>
+                <br><br>
+                <button type="submit">Ajouter</button>
+            </form>
+        </div>
 
-        <form id="data-form">
-            <h3>Ajouter une transaction</h3>
-            <label for="category">Catégorie :</label>
-            <input type="text" id="category" required>
-            <label for="type">Type :</label>
-            <select id="type">
-                <option value="income">Revenu</option>
-                <option value="expense">Dépense</option>
-            </select>
-            <label for="amount">Montant (€) :</label>
-            <input type="number" id="amount" required>
-            <br><br>
-            <button type="submit">Ajouter</button>
-        </form>
+        
     </div>
     <script src="script.js"></script>
 </body>

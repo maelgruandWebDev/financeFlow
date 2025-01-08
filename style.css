@@ -96,3 +96,10 @@ form input, form select, form button {
     border-radius: 5px;
     border: 1px solid #ccc;
 }
+div.forms{
+    width: 100px;
+    border: 0px solid;
+}
+.forms form, form input, form select, form button{
+    width: 50%;
+}
