@@ -99,7 +99,8 @@ form input, form select, form button {
 }
 
 div.forms {
-    width: 200px;
+    width: 500px;
+    padding: 50px;
     background-color: #ccc;
     border: 0;
     text-align: center;
