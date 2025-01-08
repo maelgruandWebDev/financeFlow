@@ -15,7 +15,7 @@ function updateDashboard() {
 
     // Vérification du solde si type = dépense
     if (balance <= 0 && transactions.some(t => t.type === "expense")) {
-        alert("Impossible d'ajouter cette dépense : votre solde est à 0€ ou négatif !");
+        alert("Attention, arrêter de dépenser, solde négatif");
         return;
     }
 }
