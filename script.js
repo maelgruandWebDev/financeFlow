@@ -18,10 +18,32 @@ document.getElementById("data-form").addEventListener("submit", (e) => {
     updateTable();
     e.target.reset();
 });
+function addRow(transaction) {
+    const tableBody = document.getElementById("data-table");
+
+    // Supprimer la ligne par défaut s'il y a des données
+    const noDataRow = document.getElementById("no-data");
+    if (noDataRow) {
+        noDataRow.remove();
+    }
+
+    // Ajouter une nouvelle ligne pour la transaction
+    const row = document.createElement("tr");
+    row.innerHTML = `
+        <td>${transaction.category}</td>
+        <td>${transaction.type === "income" ? "Revenu" : "Dépense"}</td>
+        <td>${transaction.amount.toFixed(2)} €</td>
+        <td>${transaction.date}</td>
+        <td><button onclick="deleteTransaction(this)">Supprimer</button></td>
+    `;
+    tableBody.appendChild(row);
+}
 
 function updateTable() {
-    const tableBody = document.getElementById("data-table");
+    const tableBody = document.getElementById("data-table")
+
     tableBody.innerHTML = ""; // Réinitialise le tableau
+
 
     transactions.forEach((t, index) => {
         const row = document.createElement("tr");
