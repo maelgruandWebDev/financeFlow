@@ -82,7 +82,7 @@ table {
 table th, table td {
     padding: 10px;
     text-align: left;
-    border: 1px solid #000;
+    border: 10px solid #000;
 }
 
 form {
