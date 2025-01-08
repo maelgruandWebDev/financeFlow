@@ -6,11 +6,11 @@ let expenseChart = new Chart(ctx, {
     data: {
         labels: [],  // Les catégories ou types seront mises à jour ici
         datasets: [{
-            label: 'Dépenses',
+            label: 'Dépenses en €',
             data: [],  // Les montants des dépenses seront mises à jour ici
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',  // Couleur de fond des barres
-            borderColor: 'rgba(75, 192, 192, 1)',        // Couleur des bordures des barres
-            borderWidth: 1
+            backgroundColor: 'rgba(75, 192, 192, 1)',  // Couleur de fond des barres
+            borderColor: 'rgba(75, 192, 192, 0.2)',        // Couleur des bordures des barres
+            borderWidth: 4
         }]
     },
     options: {
