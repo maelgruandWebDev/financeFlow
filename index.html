@@ -271,86 +271,112 @@
     </div>
 
     <script>
-       let transactions = [];
+        let transactions = [];
 
-const ctx = document.getElementById('expenseChart').getContext('2d');
-
-// Initialisation du graphique
-const expenseChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-        labels: [],  // Initialiser avec des labels vides
-        datasets: [{
-            label: 'Dépenses par catégorie',
-            data: [],  // Initialiser avec des données vides
-            borderColor: 'rgba(75, 192, 192, 1)',
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            fill: true,
-        }]
-    },
-    options: {
-        responsive: true,
-        scales: {
-            y: {
-                beginAtZero: true
+        const ctx = document.getElementById('expenseChart').getContext('2d');
+        let expenseChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: [],  // Les catégories ou types seront mises à jour ici
+                datasets: [{
+                    label: 'Dépenses en €',
+                    data: [],  // Les montants des dépenses seront mises à jour ici
+                    backgroundColor: 'rgba(75, 192, 192, 1)',  // Couleur de fond des barres
+                    borderColor: 'rgba(75, 192, 192, 0.2)',        // Couleur des bordures des barres
+                    borderWidth: 4
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
+        });
+
+
+        // Fonction pour mettre à jour le tableau avec les transactions
+        function updateTable() {
+            const tableBody = document.getElementById("data-table");
+            tableBody.innerHTML = transactions
+                .map(t => `
+        <tr>
+            <td>${t.category}</td>
+            <td>${t.type === "income" ? "Revenu" : "Dépense"}</td>
+            <td>${t.amount} €</td>
+        </tr>
+    `)
+                .join("");
         }
-    }
-});
 
-// Fonction pour mettre à jour le graphique
-function updateChart(view) {
-    const expenses = transactions.filter(t => t.type === "expense");
+        // Fonction pour mettre à jour le tableau de bord (revenus, dépenses, solde)
+        function updateDashboard() {
+            const totalIncome = transactions.filter(t => t.type === "income").reduce((sum, t) => sum + t.amount, 0);
+            const totalExpenses = transactions.filter(t => t.type === "expense").reduce((sum, t) => sum + t.amount, 0);
+            const balance = totalIncome - totalExpenses;
 
-    if (view === 'category') {
-        // Regrouper les dépenses par catégorie
-        const categories = [...new Set(expenses.map(t => t.category))];
-        const amounts = categories.map(category =>
-            expenses.filter(t => t.category === category).reduce((sum, t) => sum + t.amount, 0)
-        );
+            document.getElementById("total-income").textContent = `${totalIncome} €`;
+            document.getElementById("total-expenses").textContent = `${totalExpenses} €`;
+            document.getElementById("balance").textContent = `${balance} €`;
 
-        expenseChart.data.labels = categories;
-        expenseChart.data.datasets[0].data = amounts;
-    } else if (view === 'type') {
-        // Regrouper les dépenses par type (revenu/dépense)
-        const types = ['income', 'expense'];
-        const amounts = types.map(type =>
-            expenses.filter(t => t.type === type).reduce((sum, t) => sum + t.amount, 0)
-        );
+            // Mettre à jour le graphique
+            updateChart('category');  // Par défaut, afficher par catégorie
+        }
 
-        expenseChart.data.labels = ['Revenu', 'Dépense'];
-        expenseChart.data.datasets[0].data = amounts;
-    }
+        // Fonction pour mettre à jour le graphique en fonction de la vue
+        function updateChart(view) {
+            const expenses = transactions.filter(t => t.type === "expense");
 
-    expenseChart.update();  // Actualiser le graphique
-}
+            if (view === 'category') {
+                // Regrouper les dépenses par catégorie
+                const categories = [...new Set(expenses.map(t => t.category))];
+                const amounts = categories.map(category =>
+                    expenses.filter(t => t.category === category).reduce((sum, t) => sum + t.amount, 0)
+                );
 
-// Événements pour le formulaire
-document.getElementById("data-form").addEventListener("submit", e => {
-    e.preventDefault();
+                expenseChart.data.labels = categories;
+                expenseChart.data.datasets[0].data = amounts;
+            } else if (view === 'type') {
+                // Regrouper les dépenses par type (revenu/dépense)
+                const types = ['income', 'expense'];
+                const amounts = types.map(type =>
+                    expenses.filter(t => t.type === type).reduce((sum, t) => sum + t.amount, 0)
+                );
 
-    const category = document.getElementById("category").value;
-    const type = document.getElementById("type").value;
-    const amount = parseFloat(document.getElementById("amount").value);
+                expenseChart.data.labels = ['Revenu', 'Dépense'];
+                expenseChart.data.datasets[0].data = amounts;
+            }
 
-    transactions.push({ category, type, amount });
+            expenseChart.update();  // Actualiser le graphique
+        }
 
-    updateDashboard();  // Mettre à jour le tableau et le graphique
-    updateTable();  // Mettre à jour la table
+        // Événements pour le formulaire
+        document.getElementById("data-form").addEventListener("submit", e => {
+            e.preventDefault();
 
-    e.target.reset();
-});
+            const category = document.getElementById("category").value;
+            const type = document.getElementById("type").value;
+            const amount = parseFloat(document.getElementById("amount").value);
 
-// Gestion des vues dynamiques
-document.getElementById("view-category").addEventListener("click", () => {
-    updateChart('category');
-});
-document.getElementById("view-type").addEventListener("click", () => {
-    updateChart('type');
-});
+            transactions.push({ category, type, amount });
 
-// Initialiser le tableau de bord au chargement
-updateDashboard();
+            updateDashboard();  // Mettre à jour le tableau et le graphique
+            updateTable();  // Mettre à jour la table
+
+            e.target.reset();
+        });
+
+        // Gestion des vues dynamiques
+        document.getElementById("view-category").addEventListener("click", () => {
+            updateChart('category');
+        });
+        document.getElementById("view-type").addEventListener("click", () => {
+            updateChart('type');
+        });
+
+        // Initialiser le tableau de bord au chargement
+        updateDashboard();
 
     </script>
 
