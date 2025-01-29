@@ -296,8 +296,8 @@
     </div>
 
     <script>
-        let transactions = [];
-
+        let transactions = JSON.parse(sessionStorage.getItem("transactions")) || [];
+    
         const ctx = document.getElementById('expenseChart').getContext('2d');
         let expenseChart = new Chart(ctx, {
             type: 'bar',
@@ -319,7 +319,7 @@
                 }
             }
         });
-
+    
         function updateTable() {
             const tableBody = document.getElementById("data-table");
             tableBody.innerHTML = transactions
@@ -332,35 +332,36 @@
                 `)
                 .join("");
         }
-
+    
         function updateDashboard() {
             const totalIncome = transactions.filter(t => t.type === "income").reduce((acc, t) => acc + parseFloat(t.amount), 0);
             const totalExpenses = transactions.filter(t => t.type === "expense").reduce((acc, t) => acc + parseFloat(t.amount), 0);
             const balance = totalIncome - totalExpenses;
-
+    
             document.getElementById("total-income").textContent = `${totalIncome} €`;
             document.getElementById("total-expenses").textContent = `${totalExpenses} €`;
             document.getElementById("balance").textContent = `${balance} €`;
-
+    
             expenseChart.data.labels = transactions.filter(t => t.type === "expense").map(t => t.category);
             expenseChart.data.datasets[0].data = transactions.filter(t => t.type === "expense").map(t => parseFloat(t.amount));
             expenseChart.update();
         }
-
+    
         // Formulaire d'ajout de transaction
         document.getElementById("data-form").addEventListener("submit", function (e) {
             e.preventDefault();
             const category = document.getElementById("category").value;
             const type = document.getElementById("type").value;
             const amount = document.getElementById("amount").value;
-
+    
             if (amount > 0) {
                 transactions.push({ category, type, amount });
+                sessionStorage.setItem("transactions", JSON.stringify(transactions)); // Sauvegarde dans le Session Storage
                 updateTable();
                 updateDashboard();
             }
         });
-
+    
         // Téléchargement CSV
         function downloadCSV() {
             const header = ["Catégorie", "Type", "Montant (€)"];
@@ -369,52 +370,57 @@
                 t.type === "income" ? "Revenu" : "Dépense",
                 t.amount
             ]);
-
+    
             let csvContent = "data:text/csv;charset=utf-8," + header.join(",") + "\n";
-
+    
             rows.forEach(row => {
                 csvContent += row.join(",") + "\n";
             });
-
+    
             const encodedUri = encodeURI(csvContent);
             const link = document.createElement("a");
             link.setAttribute("href", encodedUri);
             link.setAttribute("download", "transactions.csv");
             link.click();
         }
-
+    
         // Téléchargement PDF
         function downloadPDF() {
             const { jsPDF } = window.jspdf;
             const doc = new jsPDF();
-
+    
             // Ajouter un titre
             doc.setFontSize(18);
             doc.text("Données financières", 14, 20);
-
+    
             // Ajouter les données dans un tableau
             const rows = transactions.map(t => [
                 t.category,
                 t.type === "income" ? "Revenu" : "Dépense",
                 t.amount
             ]);
-
+    
             doc.autoTable({
                 head: [["Catégorie", "Type", "Montant (€)"]],
                 body: rows,
                 startY: 30,
             });
-
+    
             // Sauvegarder le PDF
             doc.save("transactions.pdf");
         }
-
+    
         // Ajouter l'événement pour le bouton de téléchargement CSV
         document.getElementById("download-csv").addEventListener("click", downloadCSV);
-
+    
         // Ajouter l'événement pour le bouton de téléchargement PDF
         document.getElementById("download-pdf").addEventListener("click", downloadPDF);
+    
+        // Initialiser la table et le tableau de bord avec les données récupérées du sessionStorage
+        updateTable();
+        updateDashboard();
     </script>
+    
 
 </body>
 
